@@ -4,6 +4,8 @@ services:
     container_name: node
     image: node
     build: ./server
+    ports:
+      - "4000:4000"
     restart: always
   nginx:
     image: nginx:alpine
