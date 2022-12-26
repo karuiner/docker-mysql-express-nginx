@@ -1,12 +1,28 @@
 version: "3"
 services:
-  node:
-    container_name: node
+  main:
+    container_name: main
     image: node
     build: ./server
-    ports:
-      - "4000:4000"
+    environment:
+      - PORT=4000
     restart: always
+  sub:
+    container_name: sub
+    image: node
+    build: ./server
+    environment:
+      - PORT=4001
+    restart: always
+
+  checker:
+    container_name: checker
+    image: checker
+    build: ./checker
+    environment:
+      - PORT=4002
+    restart: always
+
   nginx:
     image: nginx:alpine
     restart: always
@@ -16,4 +32,5 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     container_name: nginx
     depends_on:
-      - node
+      - main
+      - sub
